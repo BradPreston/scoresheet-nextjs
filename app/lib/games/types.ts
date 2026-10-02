@@ -1,6 +1,6 @@
 /**
  * The contract a game's rules must follow.
- * 
+ *
  * validateRound returns an error message to show the user, or null if the round is valid
  */
 export type GameRules<Extra extends object = object> = {
@@ -44,7 +44,7 @@ export type GameState<Extra extends object = object> = {
 
 /**
  * The total scores per player in the game. It adds up each player's points across all rounds. Missing scores count as zero and player IDs not in state.players are ignored
- * 
+ *
  * @param state The GameState (players and round scores)
  * @returns A Record of player IDs and their total score
  */

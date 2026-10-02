@@ -24,7 +24,7 @@ type Phase10State = GameState<Phase10Extra>;
 
 // checks the phases completed by player
 export function phasesCompleted(state: Phase10State, playerId: string): number {
-  return state.rounds.filter((r) => r.completedPhase[playerId]).length;
+  return state.rounds.filter(r => r.completedPhase[playerId]).length;
 }
 
 // checks the current phase the player is on
@@ -37,7 +37,7 @@ export function winner(state: Phase10State): string | null {
   if (!phase10Rules.isGameOver(state)) return null;
   const scores = totals(state);
   const finishers = state.players.filter(
-    (p) => phasesCompleted(state, p.id) >= PHASES.length,
+    p => phasesCompleted(state, p.id) >= PHASES.length,
   );
   finishers.sort((a, b) => scores[a.id] - scores[b.id]);
   return finishers[0].id;
@@ -51,7 +51,7 @@ export const phase10Rules: GameRules<Phase10Extra> = {
 
   isGameOver(state) {
     return state.players.some(
-      (p) => phasesCompleted(state, p.id) >= PHASES.length,
+      p => phasesCompleted(state, p.id) >= PHASES.length,
     );
   },
 
@@ -66,7 +66,7 @@ export const phase10Rules: GameRules<Phase10Extra> = {
         return `${p.name} went out, so they must have completed their phase`;
       }
     }
-    if (!state.players.some((p) => round.scores[p.id] === 0)) {
+    if (!state.players.some(p => round.scores[p.id] === 0)) {
       return "One player must go out with 0 points";
     }
     return null;
