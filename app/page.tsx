@@ -1,24 +1,5 @@
 import PillLink from "./components/PillLink";
-
-type GameType = {
-  name: string;
-  path: string;
-};
-
-const gameTypes: GameType[] = [
-  {
-    name: "Phase 10",
-    path: "/phase-10",
-  },
-  {
-    name: "Dominos",
-    path: "/dominos",
-  },
-  {
-    name: "Generic",
-    path: "/generic",
-  },
-];
+import { games } from "./lib/games/registry";
 
 export default function Home() {
   return (
@@ -26,9 +7,9 @@ export default function Home() {
       <h1 className="text-6xl mb-6 text-center">Scoresheet</h1>
       <h2 className="mb-3 text-xl text-center">Choose a scoresheet</h2>
       <ul className="flex flex-wrap justify-center gap-5">
-        {gameTypes.map((game) => (
+        {games.map((game) => (
           <li key={game.name}>
-            <PillLink {...game} />
+            <PillLink path={game.id} name={game.name} />
           </li>
         ))}
       </ul>
