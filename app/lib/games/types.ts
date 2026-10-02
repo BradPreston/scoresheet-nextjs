@@ -64,6 +64,22 @@ export function totals(state: GameState): Record<string, number> {
   return result;
 }
 
+/**
+ * Returns an error string if the players are not valid, null otherwise
+ *
+ * @param players A list of players
+ * @param rules The games rules
+ */
+export function validatePlayers(players: Player[], rules: GameRules): string | null {
+  const missingPlayers = rules.minPlayers - players.length;
+
+  if (players.length < rules.minPlayers) {
+    return `Add ${missingPlayers} more player${missingPlayers > 1 ? "s" : ""}`;
+  }
+
+  return null;
+}
+
 /*
 What is Extra?
 
