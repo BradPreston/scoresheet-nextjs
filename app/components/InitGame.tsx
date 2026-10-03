@@ -8,9 +8,10 @@ import { Player, validatePlayers } from "../lib/games/types";
 type Props = {
   // rules contain functions, which can't be passed from a Server Component, so look them up by id
   gameId: string;
+  startGame: (players: Player[]) => void;
 };
 
-export default function InitGame({ gameId }: Props) {
+export default function InitGame({ gameId, startGame }: Props) {
   const rules = getGameRules(gameId);
   const [players, setPlayers] = useState<Player[]>([]);
   const error = validatePlayers(players, rules);
@@ -46,7 +47,7 @@ export default function InitGame({ gameId }: Props) {
         <button type="submit" className="bg-primary text-background font-bold border-2 border-primary border-l-0 px-4 py-1 rounded-tr-lg rounded-br-lg hover:bg-background hover:text-primary transition">Add player</button>
       </form>
 
-      <button disabled={!!error} className="bg-secondary text-background border-2 border-secondary w-full px-4 py-1 rounded-lg hover:bg-background hover:text-secondary font-bold disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:bg-secondary disabled:hover:text-background">{error || "Start Game"}</button>
+      <button disabled={!!error} className="bg-secondary text-background border-2 border-secondary w-full px-4 py-1 rounded-lg hover:bg-background hover:text-secondary font-bold disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:bg-secondary disabled:hover:text-background" onClick={() => startGame(players)} data-players={JSON.stringify(players)}>{error || "Start Game"}</button>
     </section>
   );
 }
