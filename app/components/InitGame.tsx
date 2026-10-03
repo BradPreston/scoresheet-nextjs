@@ -14,6 +14,7 @@ type Props = {
 export default function InitGame({ gameId, startGame }: Props) {
   const rules = getGameRules(gameId);
   const [players, setPlayers] = useState<Player[]>([]);
+  const [duplicatePlayerError, setDuplicatePlayerError] = useState(false);
   const error = validatePlayers(players, rules);
 
   function handleAddPlayer(event: React.SubmitEvent<HTMLFormElement>) {
@@ -21,7 +22,10 @@ export default function InitGame({ gameId, startGame }: Props) {
     const form = event.currentTarget;
     const playerName = new FormData(form).get("name")?.toString().trim();
     if (!playerName) return;
-    if (players.find(player => player.name === playerName)) return;
+    if (players.find(player => player.name.toLowerCase() === playerName.toLowerCase())) {
+      setDuplicatePlayerError(true);
+      return;
+    }
     setPlayers(prev => [...prev, { id: crypto.randomUUID(), name: playerName }]);
     form.reset();
   }
@@ -42,8 +46,9 @@ export default function InitGame({ gameId, startGame }: Props) {
         ))}
       </div>
 
+      {duplicatePlayerError && <p className="text-foreground mb-1" role="alert">Players cannot have the same name</p>}
       <form className="mb-6 flex" onSubmit={handleAddPlayer}>
-        <input id="newPlayer" type="text" name="name" className="border-2 border-primary flex-1 text-foreground px-4 py-1 rounded-tl-lg rounded-bl-lg" data-player-name />
+        <input id="newPlayer" onChange={() => setDuplicatePlayerError(false)} type="text" name="name" className="border-2 border-primary flex-1 text-foreground px-4 py-1 rounded-tl-lg rounded-bl-lg" data-player-name />
         <button type="submit" className="bg-primary text-background font-bold border-2 border-primary border-l-0 px-4 py-1 rounded-tr-lg rounded-br-lg hover:bg-background hover:text-primary transition">Add player</button>
       </form>
 
